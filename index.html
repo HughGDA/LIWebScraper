@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title></title>
+        <script type="text/javascript">
+                function getPosts(){
+                        var module_url = 'https://h9pwuxasbqpxxal-dbwebscraper.adb.uk-london-1.oraclecloudapps.com/ords/hugh_intern/scrape/';
+                        var request = new XMLHttpRequest();
+                        request.open('GET', module_url+'maxViews', false);
+                        request.send();
+                        views_url = JSON.parse(request.responseText).items[0].url;
+                        document.getElementById('most_views_link').href = views_url;
+                        views_url = views_url.substring(0, 24)+'/embed'+views_url.substring(24);
+                        document.getElementById('most_views').src = views_url;
+
+                        request.open('GET', module_url+'maxReacts', false);
+                        request.send();
+                        reacts_url = JSON.parse(request.responseText).items[0].url;
+                        document.getElementById('most_reacts_link').href = reacts_url;
+                        reacts_url = reacts_url.substring(0, 24)+'/embed'+reacts_url.substring(24);
+                        document.getElementById('most_reacts').src = reacts_url;
+
+                        request.open('GET', module_url+'visualise', false);
+                        request.send();
+                        recent_url = JSON.parse(request.responseText).items[0].url;
+                        document.getElementById('most_recent_link').href = recent_url;
+                        recent_url = recent_url.substring(0, 24)+'/embed'+recent_url.substring(24);
+                        document.getElementById('most_recent').src = recent_url;
+                }
+
+                function submitForm(){
+                        var frm = document.getElementsByName('new_post')[0];
+                        frm.submit(); // Submit
+                        frm.reset();  // Reset
+                        return false; // Prevent page refresh
+                }
+        </script>
+</head>
+<body style="height:100vh;width:100vw;padding:0;margin:0;display:inline-block;" onload="getPosts()">
+        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+        <div style="height:40%;width:40%;padding-top:2%;padding-right:4%;padding-left:4%;margin:0;display:inline-block;">
+                <a id="most_views_link" href="" target="_blank">
+                        <p style="padding:0;margin:0;">Most Viewed Post</p>
+                </a>
+                <iframe src="" id="most_views" height="100%" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+        </div>
+
+        <div style="height:40%;width:40%;padding-top:2%;padding-right:4%;padding-left:4%;margin:0;display:inline-block;">
+                <a id="most_reacts_link" href="" target="_blank">
+                        <p style="padding:0;margin:0;">Most Reacted to Post</p>
+                </a>
+                <iframe src="" id="most_reacts" height="100%" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+        </div>
+        <div style="height:40%;width:40%;padding-top:4%;padding-right:4%;padding-left:4%;margin:0;display:inline-block;">
+                <a id="most_recent_link" href="" target="_blank">
+                        <p style="padding:0;margin:0;">Most Recent Post</p>
+                </a>
+                <iframe src="" id="most_recent" height="100%" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+        </div>
+        <div style="height:40%;width:40%;padding-top:4%;padding-right:4%;padding-left:4%;margin:0;display:inline-block;float:right;">
+                <h2 style="padding:0;margin:0;">New Post Input</h2>
+
+                <form name="new_post" id="new_post_form" class="new_post_submit" action="[MODULE_URL HERE]visualise" target="hiddenFrame" method="POST" style="height:80%;width:80%;">
+                        <p>URL of new post</p>
+                        <input style="width:80%;" class="new_post_submit" type="text" required name="GETURL" placeholder="URL of new post"><br>
+                        <p>Your identifier for the new post</p>
+                        <input style="width:80%;" class="new_post_submit" type="tetx" required name="GETIDENTIFIER" placeholder="Identifying name of new post"><br>
+                        <p>Your API key</p>
+                        <input style="width:80%;" class="new_post_submit" type="password" required name="API_KEY"><br>
+                        <input style="width:20%;margin-left:30%;margin-right:30%;margin-top:10%" class="new_post_submit" type="reset" value="Submit" onclick="document.forms['new_post'].submit()">
+                </form>
+        </div>
+</body>
+</html>
